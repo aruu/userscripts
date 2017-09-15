@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         uWaterloo Quest GPA Calculator
-// @namespace    https://aruu.github.io/
-// @version      0.5
-// @description  Calculate the GPA from the unofficial transcript on Quest, including select which terms to include
 // @author       Kevin Thai
+// @namespace    https://aruu.github.io/
+// @description  Calculate the GPA from the unofficial transcript on Quest, including select which terms to include
+// @updateURL    https://github.com/aruu/userscripts/raw/master/quest-gpa.user.js
 // @include      https://quest.pecs.uwaterloo.ca/psp/SS/ACADEMIC/SA/c/*
 // @grant        none
+// @version      0.5
 // ==/UserScript==
 
 (function() {
