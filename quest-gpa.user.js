@@ -6,39 +6,48 @@
 // @updateURL    https://github.com/aruu/userscripts/raw/master/quest-gpa.user.js
 // @include      https://quest.pecs.uwaterloo.ca/ps*/SS/ACADEMIC/SA/c/*
 // @grant        none
-// @version      0.5
+// @version      0.55
 // ==/UserScript==
 
 (function() {
     'use strict';
 
-    if (window.location.href === ("https://quest.pecs.uwaterloo.ca/psp/SS/ACADEMIC/SA/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL"+
-                                  "?PORTALPARAM_PTCNAV=HC_SSS_STUDENT_CENTER&EOPP.SCNode=SA&EOPP.SCPortal=ACADEMIC"+
-                                  "&EOPP.SCName=CO_EMPLOYEE_SELF_SERVICE&EOPP.SCLabel=Self%20Service&EOPP.SCPTfname=CO_EMPLOYEE_SELF_SERVICE"+
-                                  "&FolderPath=PORTAL_ROOT_OBJECT.CO_EMPLOYEE_SELF_SERVICE.HC_SSS_STUDENT_CENTER&IsFolder=false")) {
+    if (window.location.href.includes("https://quest.pecs.uwaterloo.ca/psp/SS/ACADEMIC/SA/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL")) {
         var logo = window.document.getElementById("pthdr2logoswan");
         logo.style.backgroundImage = "url(https://aruu-b21e7.firebaseapp.com/assets/title.png)";
     }
 
-    if (window.location.href === ("https://quest.pecs.uwaterloo.ca/psc/SS/ACADEMIC/SA/c/SA_LEARNER_SERVICES.SS_AA_REPORT1.GBL"+
-                                  "?Page=SS_ES_AARPT_TYPE2&Action=A&TargetFrameName=None")) {
+    if (window.location.href.includes("https://quest.pecs.uwaterloo.ca/psc/SS/ACADEMIC/SA/c/SA_LEARNER_SERVICES.SS_AA_REPORT1.GBL")) {
 
-        var sidebar = "<div id='aruu-sidebar'"+
-            "style='height: 300px; width: 150px; top: 0px; right: 50px; "+
-            "background-color: red; position: fixed; text-align: center;'>"+
-            "<h3>GPA Calculator</h3>"+
-            "<button id='calculateGPA'>Calculate</button>"+
+        // Constructing the elements + styles
+        var sidebar = "<div id='aruu-sidebar'>"+
+            "<h3 class='PATRANSACTIONTITLE'>GPA Calculator</h3>"+
+            "<button id='calculateGPA' class='SSSBUTTON_ACTIONLINK'>Colour area</button>"+
             "</div>";
+        var css = "<style>"+
+            "#aruu-sidebar{height:300px;width:150px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
+            "#calculateGPA{margin:auto;width:80px;padding:0;border-right-width:2px;}"+
+            "</style>";
 
+        // Inserting them into the document
         window.document.body.insertAdjacentHTML('beforeend', sidebar);
-        window.document.getElementById("calculateGPA").onclick = fa;
+        window.document.body.insertAdjacentHTML('beforeend', css);
+        window.document.getElementById("calculateGPA").onclick = calculateGPA;
     }
 
 })();
 
-function fa() {
-    alert('TESTEST 123');
+function calculateGPA() {
     var test = window.document.getElementById("win0divUW_DERIVED_TS_UW_TRANSCRIPT_TEXT");
     //PrintTranscript
     console.log(test);
+    if (test === null) {
+        alert("No transcript available to colour yet!");
+    } else {
+        if (test.style.backgroundColor == "blue") {
+            test.style.backgroundColor = "white";
+        } else {
+            test.style.backgroundColor = "blue";
+        }
+    }
 }
