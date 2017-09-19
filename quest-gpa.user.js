@@ -21,13 +21,13 @@
 
         // Constructing the elements + styles
         var sidebar = "<div id='aruu-sidebar'>"+
-            "<h3 class='PATRANSACTIONTITLE'>GPA Calculator</h3>"+
-            "<button id='calculateGPA' class='SSSBUTTON_ACTIONLINK'>Colour area</button>"+
-            "</div>";
+        "<h3 class='PATRANSACTIONTITLE'>GPA Calculator</h3>"+
+        "<button id='calculateGPA' class='SSSBUTTON_ACTIONLINK'>Colour area</button>"+
+        "</div>";
         var css = "<style>"+
-            "#aruu-sidebar{height:300px;width:150px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
-            "#calculateGPA{margin:auto;width:80px;padding:0;border-right-width:2px;}"+
-            "</style>";
+        "#aruu-sidebar{height:300px;width:150px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
+        "#calculateGPA{margin:auto;width:80px;padding:0;border-right-width:2px;}"+
+        "</style>";
 
         // Inserting them into the document
         window.document.body.insertAdjacentHTML('beforeend', sidebar);
@@ -38,16 +38,18 @@
 })();
 
 function calculateGPA() {
-    var test = window.document.getElementById("win0divUW_DERIVED_TS_UW_TRANSCRIPT_TEXT");
-    //PrintTranscript
-    console.log(test);
-    if (test === null) {
-        alert("No transcript available to colour yet!");
-    } else {
-        if (test.style.backgroundColor == "blue") {
-            test.style.backgroundColor = "white";
-        } else {
-            test.style.backgroundColor = "blue";
-        }
+    var transcriptDiv = window.document.getElementById("PrintTranscript");
+    if (!transcriptDiv) {
+        alert("No transcript on the screen yet!");
+        return;
     }
+
+    var text = transcriptDiv.innerHTML;
+    text = text.split("<br>");
+    var transcript = [];
+    for (var i=0; i<text.length; i++) {
+        if (/^<b>(Fall|Winter|Spring)/.exec(text[i])) transcript.push(text[i]);
+        if ("Y" === text[i].slice(70,71)) transcript.push(text[i]);
+    }
+    console.log(transcript);
 }
