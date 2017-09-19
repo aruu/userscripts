@@ -23,6 +23,7 @@
         var sidebar = "<div id='aruu-sidebar'>"+
         "<h3 class='PATRANSACTIONTITLE'>GPA Calculator</h3>"+
         "<button id='calculateGPA' class='SSSBUTTON_ACTIONLINK'>Colour area</button>"+
+        "<textarea id='testarea' rows='5' cols='10'></textarea>"+
         "</div>";
         var css = "<style>"+
         "#aruu-sidebar{height:300px;width:150px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
@@ -39,17 +40,20 @@
 
 function calculateGPA() {
     var transcriptDiv = window.document.getElementById("PrintTranscript");
+    var testarea = window.document.getElementById("testarea");
+    var transcript = [];
     if (!transcriptDiv) {
         alert("No transcript on the screen yet!");
-        return;
-    }
-
-    var text = transcriptDiv.innerHTML;
-    text = text.split("<br>");
-    var transcript = [];
-    for (var i=0; i<text.length; i++) {
-        if (/^<b>(Fall|Winter|Spring)/.exec(text[i])) transcript.push(text[i]);
-        if ("Y" === text[i].slice(70,71)) transcript.push(text[i]);
+        transcript = testarea.value.split("\n");
+    } else {
+        var text = transcriptDiv.innerHTML;
+        text = text.split("<br>");
+        for (var i=0; i<text.length; i++) {
+            if (/^<b>(Fall|Winter|Spring)/.exec(text[i])) transcript.push(text[i]);
+            if ("Y" === text[i].slice(70,71)) transcript.push(text[i]);
+        }
+        testarea.value = transcript.join("\n");
     }
     console.log(transcript);
+
 }
