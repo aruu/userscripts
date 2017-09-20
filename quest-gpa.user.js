@@ -6,7 +6,7 @@
 // @updateURL    https://github.com/aruu/userscripts/raw/master/quest-gpa.user.js
 // @include      https://quest.pecs.uwaterloo.ca/ps*/SS/ACADEMIC/SA/c/*
 // @grant        none
-// @version      0.55
+// @version      0.56
 // ==/UserScript==
 
 (function() {
