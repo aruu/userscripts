@@ -73,7 +73,7 @@ function calculateGPA() {
         if (result = /^<b>(\w* \d{4})\s*(\d\w)/.exec(transcript_raw[i])) {
             // Row indicating new term
             if (0 !== i) {
-                transcript.push(term);
+                if (term.grades.length > 0) transcript.push(term);
                 term = {desc:"", grades:[]};
             }
             var coop = "";
