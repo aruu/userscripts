@@ -50,9 +50,11 @@
 })();
 
 function calculateGPA() {
-    var i;
+    var i, j;
     var transcriptDiv = window.document.getElementById("PrintTranscript");
     var testarea = window.document.getElementById("testarea");
+
+    // Filter out the relevant lines of text from the transcript
     var transcript_raw = [];
     if (!transcriptDiv) {
         alert("No transcript on the screen yet!");
@@ -67,14 +69,15 @@ function calculateGPA() {
         testarea.value = transcript_raw.join("\n");
     }
 
+    // Parse the filtered lines into a data structure to store the term names and grades
     var transcript = [];
-    var term = {desc:"", grades:[]};
+    var term = {desc:"", courses:[]};
     for (i=0; i<transcript_raw.length; i++) {
         if (result = /^<b>(\w* \d{4})\s*(\d\w)/.exec(transcript_raw[i])) {
             // Row indicating new term
             if (0 !== i) {
-                if (term.grades.length > 0) transcript.push(term);
-                term = {desc:"", grades:[]};
+                if (term.courses.length > 0) transcript.push(term);
+                term = {desc:"", courses:[]};
             }
             var coop = "";
             if (transcript_raw[i].includes("Co-op Work")) coop = " CO-OP";
@@ -83,13 +86,24 @@ function calculateGPA() {
         } else {
             // Row containing a course and a grade
             result = /^(.{12}).{29}(.{4}).{8}(.{2})/.exec(transcript_raw[i]);
-            var grade = {course_code:result[1].trim(),
+            var course = {course_code:result[1].trim(),
                          grade:parseFloat(result[3]),
                          weight:parseFloat(result[2])};
-            term.grades.push(grade);
+            term.courses.push(course);
         }
     }
     transcript.push(term);
 
+    // Take the transcript and calculate the cumulative GPA
+    var gpa = 0, gpa_weight = 0;
+    for (i=0; i<transcript.length; i++) {
+        for (j=0; j<transcript[i].courses.length; j++) {
+            gpa += transcript[i].courses[j].grade * transcript[i].courses[j].weight;
+            gpa_weight += transcript[i].courses[j].weight;
+        }
+    }
+    gpa /= gpa_weight;
+
     console.log(transcript);
+    console.log(gpa);
 }
