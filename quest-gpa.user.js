@@ -13,14 +13,14 @@
     'use strict';
 
     if (window.location.href.includes("https://quest.pecs.uwaterloo.ca/psp/SS/ACADEMIC/SA/c/SA_LEARNER_SERVICES.SSS_STUDENT_CENTER.GBL")) {
-        var logo = window.document.getElementById("pthdr2logoswan");
+        let logo = window.document.getElementById("pthdr2logoswan");
         logo.style.backgroundImage = "url(https://aruu-b21e7.firebaseapp.com/assets/title.png)";
     }
 
     if (window.location.href.includes("https://quest.pecs.uwaterloo.ca/psc/SS/ACADEMIC/SA/c/SA_LEARNER_SERVICES.SS_AA_REPORT1.GBL")) {
 
         // Constructing the elements + styles
-        var sidebar = "<div class='aruu-sidebar PSTEXT'>"+
+        let sidebar = "<div class='aruu-sidebar PSTEXT'>"+
             "<h3 class='PATRANSACTIONTITLE'>GPA Calculator</h3>"+
             "<div class='gpa-container PSGROUPBOXWBO'>"+
             "<div class='PSLEVEL2GRIDLABEL'>Cumulative GPA</div>"+
@@ -35,7 +35,7 @@
             "</tbody>"+
             "</table>"+
             "</div>";
-        var css = "<style>"+
+        let css = "<style>"+
             ".aruu-sidebar{height:300px;width:200px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
             ".gpa-container{margin:10px 15px;}"+
             ".sidebar-button{margin:3px auto;width:120px;padding:0;border-right-width:2px;}"+
@@ -53,9 +53,8 @@
 })();
 
 function calculateGPA() {
-    var i, j;
-    var transcriptDiv = window.document.getElementById("PrintTranscript");
-    var testarea = window.document.getElementById("testarea");
+    var transcriptDiv = window.document.getElementById("PrintTranscript"),
+        testarea = window.document.getElementById("testarea");
 
     // Filter out the relevant lines of text from the transcript
     var transcript_raw = [];
@@ -63,7 +62,7 @@ function calculateGPA() {
         alert("No transcript on the screen yet!");
         transcript_raw = testarea.value.split("\n");
     } else {
-        var text = transcriptDiv.innerHTML;
+        let text = transcriptDiv.innerHTML;
         text = text.split("<br>");
         for (i=0; i<text.length; i++) {
             if (/^<b>(Fall|Winter|Spring)/.exec(text[i])) transcript_raw.push(text[i]);
@@ -75,21 +74,21 @@ function calculateGPA() {
     // Parse the filtered lines into a data structure to store the term names and grades
     var terms = [];
     var term = {desc:"", courses:[]};
-    for (i=0; i<transcript_raw.length; i++) {
+    for (let i=0; i<transcript_raw.length; i++) {
         if (result = /^<b>(\w* \d{4})\s*(\d\w)/.exec(transcript_raw[i])) {
             // Row indicating new term
             if (0 !== i) {
                 if (term.courses.length > 0) terms.push(term);
                 term = {desc:"", courses:[]};
             }
-            var coop = "";
+            let coop = "";
             if (transcript_raw[i].includes("Co-op Work")) coop = " CO-OP";
             term.desc =  result[2] + coop + " (" + result[1] + ")";
 
         } else {
             // Row containing a course and a grade
             result = /^(.{12}).{29}(.{4}).{8}(.{2})/.exec(transcript_raw[i]);
-            var course = {course_code:result[1].trim(),
+            let course = {course_code:result[1].trim(),
                          grade:parseFloat(result[3]),
                          weight:parseFloat(result[2])};
             term.courses.push(course);
@@ -100,7 +99,7 @@ function calculateGPA() {
     // Clear the list of terms first
     window.document.getElementById("term-table-body").innerHTML = "";
     // Get term names and create checkbox controls to select terms included
-    for (i=0; i<terms.length; i++) {
+    for (let i=0; i<terms.length; i++) {
         let checkbox = "<tr><td><input type='checkbox' name='term" + i +
             "' id='term" + i + "'><label for='term" + i + "'>" +
             terms[i].desc + "</label></td></tr>";
@@ -109,8 +108,8 @@ function calculateGPA() {
 
     // Take the transcript and calculate the cumulative GPA
     var gpa = 0, gpa_weight = 0;
-    for (i=0; i<terms.length; i++) {
-        for (j=0; j<terms[i].courses.length; j++) {
+    for (let i=0; i<terms.length; i++) {
+        for (let j=0; j<terms[i].courses.length; j++) {
             gpa += terms[i].courses[j].grade * terms[i].courses[j].weight;
             gpa_weight += terms[i].courses[j].weight;
         }
