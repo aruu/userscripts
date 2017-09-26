@@ -95,6 +95,8 @@ function calculateGPA() {
     }
     terms.push(term);
 
+    // Clear the list of terms first
+    window.document.getElementById("term-table-body").innerHTML = "";
     // Get term names and create checkbox controls to select terms included
     for (i=0; i<terms.length; i++) {
         let checkbox = "<tr><td><input type='checkbox' name='term" + i +
