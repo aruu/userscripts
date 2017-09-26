@@ -26,9 +26,10 @@
             "<div class='PSLEVEL2GRIDLABEL'>Cumulative GPA</div>"+
             "<div class='PSLONGEDITBOX' id='gpa-box'>XX</div>"+
             "</div>"+
-            "<button id='calculate-gpa' class='SSSBUTTON_ACTIONLINK'>calculate</button>"+
+            "<button id='read-transcript' class='sidebar-button SSSBUTTON_ACTIONLINK'>1. read transcript</button>"+
+            "<button id='calculate-gpa' class='sidebar-button SSSBUTTON_ACTIONLINK'>2. calculate</button>"+
             "<textarea id='testarea' rows='5' cols='10'></textarea>"+
-            "<p class='select-text'>Include these terms in calculation:</p>"+
+            "<p class='select-text'>Include these terms in calculation (click calculate to update GPA):</p>"+
             "<table class='term-table PSEDITBOX_DISPONLY'>"+
             "<tbody id='term-table-body'>"+
             "</tbody>"+
@@ -37,7 +38,8 @@
         var css = "<style>"+
             ".aruu-sidebar{height:300px;width:200px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
             ".gpa-container{margin:10px 15px;}"+
-            "#calculate-gpa{margin:auto;width:80px;padding:0;border-right-width:2px;}"+
+            ".sidebar-button{margin:3px auto;width:120px;padding:0;border-right-width:2px;}"+
+            ".sidebar-button:hover{border-right-width:2px;}"+
             ".select-text{text-align:left;margin:15px 15px 0 15px;}"+
             ".term-table{margin:0 15px 15px 15px;}"+
             "</style>";
