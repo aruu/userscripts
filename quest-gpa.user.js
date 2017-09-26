@@ -6,7 +6,7 @@
 // @updateURL    https://github.com/aruu/userscripts/raw/master/quest-gpa.user.js
 // @include      https://quest.pecs.uwaterloo.ca/ps*/SS/ACADEMIC/SA/c/*
 // @grant        none
-// @version      0.6
+// @version      0.65
 // ==/UserScript==
 
 (function() {
@@ -36,8 +36,9 @@
             "</table>"+
             "</div>";
         let css = "<style>"+
-            ".aruu-sidebar{height:300px;width:200px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
-            ".gpa-container{margin:10px 15px;}"+
+            ".aruu-sidebar{max-height:500px;width:220px;top:10px;right:50px;position:fixed;text-align:center;"+
+            "border:1px solid #7573BE;border-radius:7px;overflow:auto;}"+
+            ".gpa-container{margin:10px auto; width:120px;}"+
             ".sidebar-button{margin:3px auto;width:120px;padding:0;border-right-width:2px;}"+
             ".sidebar-button:hover{border-right-width:2px;}"+
             ".select-text{text-align:left;margin:15px 15px 0 15px;}"+
