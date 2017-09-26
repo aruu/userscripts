@@ -29,16 +29,17 @@
             "<button id='calculate-gpa' class='SSSBUTTON_ACTIONLINK'>calculate</button>"+
             "<textarea id='testarea' rows='5' cols='10'></textarea>"+
             "<p class='select-text'>Include these terms in calculation:</p>"+
-            "<table id='term-table' class='PSEDITBOX_DISPONLY'>"+
-            "<tr><td><input type='checkbox' name='terms' id='test'><label for='test'>Term</label></td></tr>"+
+            "<table class='term-table PSEDITBOX_DISPONLY'>"+
+            "<tbody id='term-table-body'>"+
+            "</tbody>"+
             "</table>"+
             "</div>";
         var css = "<style>"+
-            ".aruu-sidebar{height:300px;width:150px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
+            ".aruu-sidebar{height:300px;width:200px;top:0px;right:50px;border-color:red;position:fixed;text-align:center;}"+
             ".gpa-container{margin:10px 15px;}"+
             "#calculate-gpa{margin:auto;width:80px;padding:0;border-right-width:2px;}"+
             ".select-text{text-align:left;margin:15px 15px 0 15px;}"+
-            "#term-table{margin:0 15px 15px 15px;}"+
+            ".term-table{margin:0 15px 15px 15px;}"+
             "</style>";
 
         // Inserting them into the document
@@ -70,13 +71,13 @@ function calculateGPA() {
     }
 
     // Parse the filtered lines into a data structure to store the term names and grades
-    var transcript = [];
+    var terms = [];
     var term = {desc:"", courses:[]};
     for (i=0; i<transcript_raw.length; i++) {
         if (result = /^<b>(\w* \d{4})\s*(\d\w)/.exec(transcript_raw[i])) {
             // Row indicating new term
             if (0 !== i) {
-                if (term.courses.length > 0) transcript.push(term);
+                if (term.courses.length > 0) terms.push(term);
                 term = {desc:"", courses:[]};
             }
             var coop = "";
@@ -92,19 +93,27 @@ function calculateGPA() {
             term.courses.push(course);
         }
     }
-    transcript.push(term);
+    terms.push(term);
+
+    // Get term names and create checkbox controls to select terms included
+    for (i=0; i<terms.length; i++) {
+        let checkbox = "<tr><td><input type='checkbox' name='term" + i +
+            "' id='term" + i + "'><label for='term" + i + "'>" +
+            terms[i].desc + "</label></td></tr>";
+        window.document.getElementById("term-table-body").insertAdjacentHTML('beforeend', checkbox);
+    }
 
     // Take the transcript and calculate the cumulative GPA
     var gpa = 0, gpa_weight = 0;
-    for (i=0; i<transcript.length; i++) {
-        for (j=0; j<transcript[i].courses.length; j++) {
-            gpa += transcript[i].courses[j].grade * transcript[i].courses[j].weight;
-            gpa_weight += transcript[i].courses[j].weight;
+    for (i=0; i<terms.length; i++) {
+        for (j=0; j<terms[i].courses.length; j++) {
+            gpa += terms[i].courses[j].grade * terms[i].courses[j].weight;
+            gpa_weight += terms[i].courses[j].weight;
         }
     }
     gpa /= gpa_weight;
     window.document.getElementById("gpa-box").innerHTML = gpa;
 
-    console.log(transcript);
+    console.log(terms);
     console.log(gpa);
 }
