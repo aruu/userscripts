@@ -115,7 +115,7 @@ function calculateGPA() {
         }
     }
     gpa /= gpa_weight;
-    window.document.getElementById("gpa-box").innerHTML = gpa;
+    window.document.getElementById("gpa-box").innerHTML = gpa.toFixed(2);
 
     console.log(terms);
     console.log(gpa);
