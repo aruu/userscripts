@@ -6,7 +6,7 @@
 // @updateURL    https://github.com/aruu/userscripts/raw/master/quest-gpa.user.js
 // @include      https://quest.pecs.uwaterloo.ca/ps*/SS/ACADEMIC/SA/c/*
 // @grant        none
-// @version      0.7
+// @version      1.0
 // ==/UserScript==
 
 var terms = [];
@@ -30,7 +30,6 @@ var terms = [];
             "</div>"+
             "<button id='read-transcript' class='sidebar-button SSSBUTTON_ACTIONLINK'>1. read transcript</button>"+
             "<button id='calculate-gpa' class='sidebar-button SSSBUTTON_ACTIONLINK'>2. calculate</button>"+
-            "<textarea id='testarea' rows='5' cols='10'></textarea>"+
             "<form id='term-selection'>"+
             "<p class='select-text'>Include these terms in calculation (click calculate to update GPA):</p>"+
             "<table class='term-table PSEDITBOX_DISPONLY'>"+
@@ -59,14 +58,13 @@ var terms = [];
 })();
 
 function readTranscript() {
-    var transcriptDiv = window.document.getElementById("PrintTranscript"),
-        testarea = window.document.getElementById("testarea");
+    var transcriptDiv = window.document.getElementById("PrintTranscript");
 
     // Filter out the relevant lines of text from the transcript
     var transcript_raw = [];
     if (!transcriptDiv) {
         alert("No transcript on the screen yet!");
-        transcript_raw = testarea.value.split("\n");
+        return;
     } else {
         let text = transcriptDiv.innerHTML;
         text = text.split("<br>");
@@ -74,7 +72,6 @@ function readTranscript() {
             if (/^<b>(Fall|Winter|Spring)/.exec(text[i])) transcript_raw.push(text[i]);
             if ("Y" === text[i].slice(70,71)) transcript_raw.push(text[i]);
         }
-        testarea.value = transcript_raw.join("\n");
     }
 
     // Parse the filtered lines into a data structure to store the term names and grades
@@ -124,6 +121,7 @@ function calculateGPA() {
         }
     }
     gpa /= gpa_weight;
+
     console.log(gpa);
     window.document.getElementById("gpa-box").innerHTML = gpa.toFixed(2);
 }
