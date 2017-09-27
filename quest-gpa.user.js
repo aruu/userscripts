@@ -117,6 +117,7 @@ function calculateGPA() {
     // Take the transcript and calculate the cumulative GPA
     var gpa = 0, gpa_weight = 0;
     for (let i=0; i<terms.length; i++) {
+        if (!window.document.forms["term-selection"].elements["term"+i].checked) continue;
         for (let j=0; j<terms[i].courses.length; j++) {
             gpa += terms[i].courses[j].grade * terms[i].courses[j].weight;
             gpa_weight += terms[i].courses[j].weight;
