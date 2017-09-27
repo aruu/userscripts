@@ -6,7 +6,7 @@
 // @updateURL    https://github.com/aruu/userscripts/raw/master/quest-gpa.user.js
 // @include      https://quest.pecs.uwaterloo.ca/ps*/SS/ACADEMIC/SA/c/*
 // @grant        none
-// @version      0.65
+// @version      0.7
 // ==/UserScript==
 
 var terms = [];
@@ -93,7 +93,7 @@ function readTranscript() {
 
         } else {
             // Row containing a course and a grade
-            result = /^(.{12}).{29}(.{4}).{8}(.{2})/.exec(transcript_raw[i]);
+            result = /^(.{12}).{29}(.{4}).{8}(.{10})/.exec(transcript_raw[i]);
             let course = {course_code:result[1].trim(),
                          grade:parseFloat(result[3]),
                          weight:parseFloat(result[2])};
